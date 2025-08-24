@@ -1,0 +1,202 @@
+using OpenQA.Selenium;
+
+namespace dotNet_selenium_framework.pages;
+
+public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
+{
+    private readonly By _sortPanelCardLocator =
+        By.XPath("//div[contains(@class,'filter_panel card')][.//h2[text()='Sort']]");
+
+    private readonly By _filterPanelCardLocator =
+        By.XPath("//div[contains(@class,'filter_panel card')][.//h2[text()='Filters']]");
+
+    private readonly By _releaseDatesLocator = By.XPath("//div[@class='filter'][.//h3[text()='Release Dates']]");
+    private readonly By _calendarPopupReleaseDateGteLocator = By.XPath("//div[@id='release_date_gte_dateview']");
+    private readonly By _calendarPopupReleaseDateLteLocator = By.XPath("//div[@id='release_date_lte_dateview']");
+
+
+    public void SortResultsBy(string text)
+    {
+        OpenFilterPanelCard(_sortPanelCardLocator);
+
+        var sortPanelCardButtonLocator = By.XPath(".//button");
+        ClickOnElement(_sortPanelCardLocator, sortPanelCardButtonLocator);
+
+        var sortPanelCardOptionLocator = By.XPath("//ul[@id='sort_by_listbox']/li");
+        IList<IWebElement> options = FindElements(sortPanelCardOptionLocator);
+
+        foreach (IWebElement option in options)
+        {
+            if (option.Text.Trim().Equals(text, StringComparison.OrdinalIgnoreCase))
+            {
+                option.Click();
+                return;
+            }
+
+            Actions.SendKeys(Keys.ArrowDown).Perform();
+        }
+    }
+
+    public void FilterByGenres(string[] genres)
+    {
+        OpenFilterPanelCard(_filterPanelCardLocator);
+
+        foreach (string genre in genres)
+        {
+            var genreLocator = By.XPath("//div[@class='filter'][.//h3[text()='Genres']]//a[text()='" + genre + "']");
+            var genreElement = FindElement(genreLocator);
+            Actions.MoveToElement(genreElement).Perform();
+            Actions.ScrollByAmount(0, 200).Perform();
+            genreElement.Click();
+        }
+    }
+
+    public void FilterByReleaseDateFrom(string from)
+    {
+        OpenFilterPanelCard(_filterPanelCardLocator);
+        if (from.Trim().Length > 0)
+        {
+            FillOnCalendar(_releaseDatesLocator, _calendarPopupReleaseDateGteLocator, "from", from);
+        }
+    }
+
+    public void FilterByReleaseDateTo(string to)
+    {
+        OpenFilterPanelCard(_filterPanelCardLocator);
+        if (to.Trim().Length > 0)
+        {
+            FillOnCalendar(_releaseDatesLocator, _calendarPopupReleaseDateLteLocator, "to", to);
+        }
+    }
+
+    public void ClickSearchButton()
+    {
+        var searchButtonLocator = By.XPath("//div[contains(@class,'apply small')]//a[text()='Search']");
+        Actions.MoveToElement(FindElement(searchButtonLocator));
+        ClickOnElement(searchButtonLocator);
+    }
+
+
+    private void OpenFilterPanelCard(By locator)
+    {
+        var classAttribute = FindElement(locator).GetAttribute("class");
+        if (classAttribute != null && classAttribute.Contains("closed"))
+        {
+            ClickOnElement(locator);
+        }
+    }
+
+    private void FillOnCalendar(By filterLocation, By calendarPopupLocator, string label, string date)
+    {
+        OpenCalendarPopup(filterLocation, label);
+        CalendarPopupClickToday(calendarPopupLocator);
+
+        OpenCalendarPopup(filterLocation, label);
+        CalendarPopupNavigateToCenturyView(calendarPopupLocator);
+        CalendarPopupClickPreviousButton(calendarPopupLocator);
+
+        var day = int.Parse(date.Split("/")[1]);
+        var month = int.Parse(date.Split("/")[0]);
+        var year = int.Parse(date.Split("/")[2]);
+        CalendarPopupSelectDecate(calendarPopupLocator, year);
+        CalendarPopupSelectYear(calendarPopupLocator, year);
+        CalendarPopupSelectMonth(calendarPopupLocator, month);
+        CalendarPopupSelectDay(calendarPopupLocator, day);
+    }
+
+    private void OpenCalendarPopup(By filterLocation, string label)
+    {
+        var dateLocator = By.XPath(".//div[@class='year_column'][./span[text()='" + label + "']]");
+        var buttonLocator = By.XPath(".//button");
+        var openCalendarButtonElement = FindElement(filterLocation)
+            .FindElement(dateLocator)
+            .FindElement(buttonLocator);
+
+        Actions.ScrollToElement(openCalendarButtonElement).Perform();
+        Actions.ScrollByAmount(0, 200).Perform();
+        openCalendarButtonElement.Click();
+    }
+
+    private void CalendarPopupClickToday(By calendarPopupLocator)
+    {
+        var todayButtonLocator = By.XPath(".//button[./span[text()='Today']]");
+        FindElement(calendarPopupLocator)
+            .FindElement(todayButtonLocator).Click();
+    }
+
+    private void CalendarPopupNavigateToCenturyView(By calendarPopupLocator)
+    {
+        var navUpButtonLocator = By.XPath(".//button[@data-action='nav-up']");
+        var navUpButtonElement = FindElement(calendarPopupLocator)
+            .FindElement(navUpButtonLocator);
+        while (navUpButtonElement.GetAttribute("aria-disabled")!.Equals("false"))
+        {
+            navUpButtonElement.Click();
+        }
+    }
+
+    private void CalendarPopupClickPreviousButton(By calendarPopupLocator)
+    {
+        var prevButtonLocator = By.XPath(".//button[@data-action='prev']");
+        var prevButtonElement = FindElement(calendarPopupLocator)
+            .FindElement(prevButtonLocator);
+        while (prevButtonElement.GetAttribute("aria-disabled")!.Equals("false"))
+        {
+            prevButtonElement.Click();
+        }
+    }
+
+    private void CalendarPopupClickNextButton(By calendarPopupLocator)
+    {
+        var nextButtonLocator = By.XPath(".//button[@data-action='next']");
+        var nextButtonElement = FindElement(calendarPopupLocator)
+            .FindElement(nextButtonLocator);
+        nextButtonElement.Click();
+    }
+
+    private void CalendarPopupSelectDecate(By calendarPopupLocator, int year)
+    {
+        var decatesLocator = By.XPath(".//tbody//td[not(contains(@class,'k-empty'))]");
+        var decatesElements = FindElement(calendarPopupLocator)
+            .FindElements(decatesLocator);
+
+        bool foundYear = false;
+        foreach (var decatesTextElement in decatesElements)
+        {
+            var yearsArray = decatesTextElement.Text.Trim().Split("-");
+            var minYear = int.Parse(yearsArray[0]);
+            var maxYear = int.Parse(yearsArray[1]);
+            if (year < minYear || year > maxYear) continue;
+            decatesTextElement.Click();
+            foundYear = true;
+            break;
+        }
+
+        if (foundYear) return;
+        CalendarPopupClickNextButton(calendarPopupLocator);
+        CalendarPopupSelectDecate(calendarPopupLocator, year);
+    }
+
+    private void CalendarPopupSelectYear(By calendarPopupLocator, int year)
+    {
+        var yearLocator = By.XPath(".//tbody//td[./span[text()='" + year + "']]");
+        FindElement(calendarPopupLocator)
+            .FindElement(yearLocator)
+            .Click();
+    }
+
+    private void CalendarPopupSelectMonth(By calendarPopupLocator, int month)
+    {
+        var monthsLocator = By.XPath(".//tbody//td[not(contains(@class,'k-empty'))]");
+        FindElement(calendarPopupLocator)
+            .FindElements(monthsLocator)[(month - 1)].Click();
+    }
+
+    private void CalendarPopupSelectDay(By calendarPopupLocator, int day)
+    {
+        Thread.Sleep(1000);
+        var dayLocator = By.XPath(".//tbody//td[not(contains(@class,'k-other-month'))][./span[text()='" + day + "']]");
+        FindElement(calendarPopupLocator)
+            .FindElement(dayLocator).Click();
+    }
+}
