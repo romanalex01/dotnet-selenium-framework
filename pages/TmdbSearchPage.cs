@@ -13,6 +13,8 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
     private readonly By _releaseDatesLocator = By.XPath("//div[@class='filter'][.//h3[text()='Release Dates']]");
     private readonly By _calendarPopupReleaseDateGteLocator = By.XPath("//div[@id='release_date_gte_dateview']");
     private readonly By _calendarPopupReleaseDateLteLocator = By.XPath("//div[@id='release_date_lte_dateview']");
+    private readonly By _genresLocator = By.XPath("//div[@class='filter'][.//h3[text()='Genres']]");
+    private readonly By _userScoreLocator = By.XPath("//div[@class='filter'][.//h3[text()='User Score']]");
 
 
     public void SortResultsBy(string text)
@@ -37,18 +39,37 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         }
     }
 
+    public string GetSortResultsBy()
+    {
+        OpenFilterPanelCard(_sortPanelCardLocator);
+        var sortValueLocator = By.XPath(".//span[@class='k-input-value-text']");
+        return FindElement(_sortPanelCardLocator)
+            .FindElement(sortValueLocator).Text;
+    }
+
     public void FilterByGenres(string[] genres)
     {
         OpenFilterPanelCard(_filterPanelCardLocator);
 
         foreach (string genre in genres)
         {
-            var genreLocator = By.XPath("//div[@class='filter'][.//h3[text()='Genres']]//a[text()='" + genre + "']");
-            var genreElement = FindElement(genreLocator);
+            var genreLocator = By.XPath(".//a[text()='" + genre + "']");
+            var genreElement = FindElement(_genresLocator)
+                .FindElement(genreLocator);
             Actions.MoveToElement(genreElement).Perform();
             Actions.ScrollByAmount(0, 200).Perform();
             genreElement.Click();
         }
+    }
+
+    public IList<string> GetFilterByGenres()
+    {
+        OpenFilterPanelCard(_filterPanelCardLocator);
+
+        var selectedGenresLocator = By.XPath(".//ul[@id='with_genres']/li[@class='selected']/a");
+        var selectedGenresElements = FindElement(_genresLocator)
+            .FindElements(selectedGenresLocator);
+        return selectedGenresElements.Select(element => element.Text).ToList();
     }
 
     public void FilterByReleaseDateFrom(string from)
@@ -66,6 +87,22 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         if (to.Trim().Length > 0)
         {
             FillOnCalendar(_releaseDatesLocator, _calendarPopupReleaseDateLteLocator, "to", to);
+        }
+    }
+
+    public void FilterByUserScore(int min, int max)
+    {
+        OpenFilterPanelCard(_filterPanelCardLocator);
+
+        if ((min is >= 0 and <= 10)
+            && (max is >= 0 and <= 10)
+            && (min < max))
+        {
+            var scoreLocatorFormat = ".//div[@class='k-slider-track']//span[{0}]";
+            var minScoreLocator = By.XPath(String.Format(scoreLocatorFormat, 1));
+            var maxScoreLocator = By.XPath(String.Format(scoreLocatorFormat, 2));
+            UserScoreSetupScore(maxScoreLocator, max);
+            UserScoreSetupScore(minScoreLocator, min);
         }
     }
 
@@ -198,5 +235,26 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         var dayLocator = By.XPath(".//tbody//td[not(contains(@class,'k-other-month'))][./span[text()='" + day + "']]");
         FindElement(calendarPopupLocator)
             .FindElement(dayLocator).Click();
+    }
+
+    private void UserScoreSetupScore(By scoreLocator, int value)
+    {
+        var scoreElement = FindElement(_userScoreLocator)
+            .FindElement(scoreLocator);
+        Actions.MoveToElement(scoreElement).Perform();
+        Actions.ScrollByAmount(0, 200).Perform();
+        scoreElement.Click();
+
+        while (!scoreElement.GetAttribute("aria-valuenow")!.Equals("0"))
+        {
+            Actions.SendKeys(Keys.Left).Perform();
+            Thread.Sleep(100);
+        }
+
+        for (int i = 0; i < value; i++)
+        {
+            Actions.SendKeys(Keys.Right).Perform();
+            Thread.Sleep(100);
+        }
     }
 }
