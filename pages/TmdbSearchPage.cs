@@ -143,9 +143,9 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         Thread.Sleep(1000);
     }
 
-    public List<CardElement> GetMovies()
+    public List<Movie> GetMovies()
     {
-        var result = new List<CardElement>();
+        var result = new List<Movie>();
         var movieElements = FindElements(_mediaResultsLocator);
         if (!movieElements.Any())
             return result;
@@ -157,9 +157,7 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
             var date = movieElement.FindElement(By.XPath(".//p")).Text.Trim();
             var score = movieElement.FindElement(By.XPath(".//div[contains(@class,'user_score_chart')]"))
                 .GetAttribute("data-percent")!;
-            
-            Console.WriteLine("new Movie: title {0}, date: {1}, score: {2}",  title, date, score);
-            result.Add(new CardElement(title, date, score));
+            result.Add(new Movie(title, date, score));
         }
 
         return result;

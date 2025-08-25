@@ -1,6 +1,6 @@
-namespace dotNet_selenium_framework.apis;
-
 using RestSharp;
+
+namespace dotNet_selenium_framework.apis;
 
 public class TmdbApi
 {
@@ -31,10 +31,6 @@ public class TmdbApi
                 request.AddQueryParameter(x.Key, x.Value));
         }
 
-        var response = _client.Execute(request);
-        Console.WriteLine("Execute [GET] discover movie: URL: {0}, response code: {1} {2}",
-            response.ResponseUri, response.StatusCode, response.StatusDescription);
-        Console.WriteLine("{0}", response.Content);
-        return response;
+        return _client.Execute(request);
     }
 }
