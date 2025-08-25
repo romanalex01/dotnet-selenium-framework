@@ -1,3 +1,4 @@
+using dotnet_selenium_framework.model;
 using OpenQA.Selenium;
 
 namespace dotNet_selenium_framework.pages;
@@ -11,6 +12,7 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
     private readonly By _calendarPopupReleaseDateLteLocator = By.XPath("//div[@id='release_date_lte_dateview']");
     private readonly By _genresLocator = By.XPath("//div[@class='filter'][.//h3[text()='Genres']]");
     private readonly By _userScoreLocator = By.XPath("//div[@class='filter'][.//h3[text()='User Score']]");
+    private readonly By _mediaResultsLocator = By.XPath("//section[@id='media_results']//div[@class='card style_1']");
 
 
     public void SortResultsBy(string text)
@@ -102,10 +104,12 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
             .FindElement(inputLocator).GetAttribute("value")!;
     }
 
-    public void FilterByUserScore(int min, int max)
+    public void FilterByUserScore(int[] minMax)
     {
         OpenFilterPanelCard(_filterPanelCardLocator);
 
+        var min = minMax[0];
+        var max = minMax[1];
         if ((min is >= 0 and <= 10)
             && (max is >= 0 and <= 10)
             && (min < max))
@@ -136,6 +140,29 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         var searchButtonLocator = By.XPath("//div[contains(@class,'apply small')]//a[text()='Search']");
         Actions.MoveToElement(FindElement(searchButtonLocator));
         ClickOnElement(searchButtonLocator);
+        Thread.Sleep(1000);
+    }
+
+    public List<CardElement> GetMovies()
+    {
+        var result = new List<CardElement>();
+        var movieElements = FindElements(_mediaResultsLocator);
+        if (!movieElements.Any())
+            return result;
+        
+        foreach (var movieElement in movieElements)
+        {   
+            Actions.MoveToElement(movieElement);
+            var title = movieElement.FindElement(By.XPath(".//h2/a")).GetAttribute("title")!;
+            var date = movieElement.FindElement(By.XPath(".//p")).Text.Trim();
+            var score = movieElement.FindElement(By.XPath(".//div[contains(@class,'user_score_chart')]"))
+                .GetAttribute("data-percent")!;
+            
+            Console.WriteLine("new Movie: title {0}, date: {1}, score: {2}",  title, date, score);
+            result.Add(new CardElement(title, date, score));
+        }
+
+        return result;
     }
 
 
@@ -273,13 +300,12 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         while (!scoreElement.GetAttribute("aria-valuenow")!.Equals("0"))
         {
             Actions.SendKeys(Keys.Left).Perform();
-            Thread.Sleep(100);
         }
 
         for (int i = 0; i < value; i++)
         {
             Actions.SendKeys(Keys.Right).Perform();
-            Thread.Sleep(100);
+            Thread.Sleep(20);
         }
     }
 }

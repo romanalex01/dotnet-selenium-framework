@@ -55,7 +55,7 @@ public class BaseUiPage
     public void Navigate(string url)
     {
         _driver.Navigate().GoToUrl(url);
-        Thread.Sleep(1000);
+        Thread.Sleep(1500);
     }
 
     private WebDriverWait Wait()
