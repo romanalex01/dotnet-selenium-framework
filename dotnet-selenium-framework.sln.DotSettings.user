@@ -1,16 +1,41 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AAssert_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F98514e314f1feddb3082dbe8507ecec1a81b6491c0db7dc53c2e8c13949e4360_003FAssert_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ADefaultWait_00601_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F561abe9742e942169a45dceb55dae354586400_003Fc9_003F0ad6b508_003FDefaultWait_00601_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AElementNotInteractableException_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F561abe9742e942169a45dceb55dae354586400_003Ffc_003Fea388107_003FElementNotInteractableException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AExceptionDispatchInfo_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fbd1d5c50194fea68ff3559c160230b0ab50f5acf4ce3061bffd6d62958e2182_003FExceptionDispatchInfo_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AExpectedConditions_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F917936d1f2e040debd252d18a829883b3200_003F5d_003Fd176d8ca_003FExpectedConditions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AISearchContext_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F561abe9742e942169a45dceb55dae354586400_003F43_003Fa08a83be_003FISearchContext_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ARestClient_002EExtensions_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F157568a2a7464a77bc336e7780214b2aaeb03d665a6ff8a0c4aeb171c1127e2b_003FRestClient_002EExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ARestRequestExtensions_002EHeaders_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F3b289d45d9f146b4dc344fcf1eefee749f2cfb47c23ac09f1bf383697eeaef_003FRestRequestExtensions_002EHeaders_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AString_002EManipulation_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fe75a5575ba872c8ea754c015cb363850e6c661f39569712d5b74aaca67263c_003FString_002EManipulation_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AToCollection_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F439c4ee753b23e743cc14119593bc889751f9eb0b38997577d8e4c47c4fed_003FToCollection_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AWebDriverWait_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F561abe9742e942169a45dceb55dae354586400_003Fb9_003F080e474c_003FWebDriverWait_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AWebDriver_002Ecs_002Fl_003AC_0021_003FUsers_003Froman_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F561abe9742e942169a45dceb55dae354586400_003F25_003Feff45073_003FWebDriver_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\roman\.nuget\packages\selenium.webdriver\4.35.0\lib\net8.0\WebDriver.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=13265fc7_002Dfad0_002D42cd_002D90bd_002Dd1d8b5a58186/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Task3_FiltersUIAndApi #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::301BF478-F06E-FD02-35F4-17DE48165294::net9.0::dotNet_selenium_framework.tests.TmdbTests.Task3_FiltersUIAndApi&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=642c16b2_002Dcd70_002D499f_002Da8f5_002Dfde4756371a1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Task3_FiltersUIAndApi" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::301BF478-F06E-FD02-35F4-17DE48165294::net9.0::dotNet_selenium_framework.tests.TmdbTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=99b96682_002Ddea4_002D4ff1_002D93c4_002Dfadec202388d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Task3_FiltersUIAndApi_2 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::301BF478-F06E-FD02-35F4-17DE48165294::net9.0::dotNet_selenium_framework.tests.TmdbTests.Task3_FiltersUIAndApi_2&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ebcfb62c_002Daf57_002D4afb_002D972e_002D564167819823/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Task3_FiltersUIAndApi_2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::301BF478-F06E-FD02-35F4-17DE48165294::net9.0::dotNet_selenium_framework.tests.TmdbTests.Task3_FiltersUIAndApi_2&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
 	
 	
 	
