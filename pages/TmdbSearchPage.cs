@@ -4,12 +4,8 @@ namespace dotNet_selenium_framework.pages;
 
 public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
 {
-    private readonly By _sortPanelCardLocator =
-        By.XPath("//div[contains(@class,'filter_panel card')][.//h2[text()='Sort']]");
-
-    private readonly By _filterPanelCardLocator =
-        By.XPath("//div[contains(@class,'filter_panel card')][.//h2[text()='Filters']]");
-
+    private readonly By _sortPanelCardLocator = By.XPath("//div[contains(@class,'filter_panel card')][.//h2[text()='Sort']]");
+    private readonly By _filterPanelCardLocator = By.XPath("//div[contains(@class,'filter_panel card')][.//h2[text()='Filters']]");
     private readonly By _releaseDatesLocator = By.XPath("//div[@class='filter'][.//h3[text()='Release Dates']]");
     private readonly By _calendarPopupReleaseDateGteLocator = By.XPath("//div[@id='release_date_gte_dateview']");
     private readonly By _calendarPopupReleaseDateLteLocator = By.XPath("//div[@id='release_date_lte_dateview']");
@@ -62,7 +58,7 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         }
     }
 
-    public IList<string> GetFilterByGenres()
+    public List<string> GetFilterByGenres()
     {
         OpenFilterPanelCard(_filterPanelCardLocator);
 
@@ -81,6 +77,14 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         }
     }
 
+    public string GetFilterByReleaseDateFrom()
+    {
+        OpenFilterPanelCard(_filterPanelCardLocator);
+        var inputLocator = By.XPath(".//input[@id='release_date_gte']");
+        return FindElement(_releaseDatesLocator)
+            .FindElement(inputLocator).GetAttribute("value")!;
+    }
+
     public void FilterByReleaseDateTo(string to)
     {
         OpenFilterPanelCard(_filterPanelCardLocator);
@@ -88,6 +92,14 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         {
             FillOnCalendar(_releaseDatesLocator, _calendarPopupReleaseDateLteLocator, "to", to);
         }
+    }
+
+    public string GetFilterByReleaseDateTo()
+    {
+        OpenFilterPanelCard(_filterPanelCardLocator);
+        var inputLocator = By.XPath(".//input[@id='release_date_lte']");
+        return FindElement(_releaseDatesLocator)
+            .FindElement(inputLocator).GetAttribute("value")!;
     }
 
     public void FilterByUserScore(int min, int max)
@@ -104,6 +116,19 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
             UserScoreSetupScore(maxScoreLocator, max);
             UserScoreSetupScore(minScoreLocator, min);
         }
+    }
+
+    public int[] GetFilterByUserScore()
+    {
+        OpenFilterPanelCard(_filterPanelCardLocator);
+        var scoreLocator = By.XPath(".//div[@class='k-slider-track']//span");
+        var scoreElements = FindElement(_userScoreLocator)
+            .FindElements(scoreLocator);
+
+        var scoreResult = new int [2];
+        scoreResult[0] = int.Parse(scoreElements[0].GetAttribute("aria-valuenow")!);
+        scoreResult[1] = int.Parse(scoreElements[1].GetAttribute("aria-valuenow")!);
+        return scoreResult;
     }
 
     public void ClickSearchButton()
