@@ -1,4 +1,3 @@
-using dotNet_selenium_framework.apis;
 using dotnet_selenium_framework.utils;
 
 namespace dotNet_selenium_framework.tests;
@@ -6,7 +5,7 @@ namespace dotNet_selenium_framework.tests;
 public class TmdbTests : BaseTest
 {
     private readonly string _sort = "Release Date Ascending";
-    private readonly string[] _genres = ["Comedy", "Drama", "Family", "Romance"];
+    private readonly string[] _genres = ["Action", "History"];
     private readonly string _fromDate = "1/1/1990";
     private readonly string _toDate = "1/1/2005";
     private readonly int[] _userScore = [8, 10];
@@ -70,16 +69,46 @@ public class TmdbTests : BaseTest
     }
 
     [Test]
-    public void Task3_FiltersUIAndApi()
+    public void Task3_FiltersUIAndApi_1()
     {
-        var tmdbApi = new TmdbApi("ce5e239860da25ec3cc5bc36ad8aab7d");
-
         HomePage.NavigateToHomePage();
         HomePage.ClickAcceptAllCookiesButton();
         HomePage.OpenPopularMoviesSearchPage();
         var uiMovies = SearchPage.GetMovies();
-        
-        var discoverMovieJson = tmdbApi.DiscoverMovie().Content;
+
+        var discoverMovieJson = TmdbApi.DiscoverMovie().Content;
+        var apiMovies = ApiUtils.GetMovies(discoverMovieJson!);
+        Assert.That(uiMovies, Is.EqualTo(apiMovies));
+    }
+
+    [Test]
+    public void Task3_FiltersUIAndApi_2()
+    {
+        HomePage.NavigateToHomePage();
+        HomePage.ClickAcceptAllCookiesButton();
+        HomePage.OpenPopularMoviesSearchPage();
+
+        SearchPage.SortResultsBy(_sort);
+        SearchPage.FilterByGenres(_genres);
+        SearchPage.FilterByReleaseDateFrom(_fromDate);
+        SearchPage.FilterByReleaseDateTo(_toDate);
+        SearchPage.FilterByUserScore(_userScore);
+        SearchPage.ClickSearchButton();
+        var uiMovies = SearchPage.GetMovies();
+
+        //Using genre name, identify the genre ids
+        var genreMovieJson = TmdbApi.GenreMovie().Content;
+        var genreMovieIds = ApiUtils.GetGenreIds(genreMovieJson!, _genres);
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "sort_by", "primary_release_date.asc" },
+            { "with_genres", genreMovieIds },
+            { "release_date.gte", _fromDate },
+            { "release_date.lte", _toDate },
+            { "vote_average.gte", _userScore[0].ToString() },
+            { "vote_average.lte", _userScore[1].ToString() },
+        };
+        var discoverMovieJson = TmdbApi.DiscoverMovie(queryParameters).Content;
         var apiMovies = ApiUtils.GetMovies(discoverMovieJson!);
         Assert.That(uiMovies, Is.EqualTo(apiMovies));
     }

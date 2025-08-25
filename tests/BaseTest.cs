@@ -1,3 +1,4 @@
+using dotNet_selenium_framework.apis;
 using dotNet_selenium_framework.pages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -9,6 +10,7 @@ public class BaseTest
     private IWebDriver _driver;
     protected TmdbHomePage HomePage;
     protected TmdbSearchPage SearchPage;
+    protected TmdbApi TmdbApi;
 
     [SetUp]
     public void SetUp()
@@ -18,9 +20,10 @@ public class BaseTest
         _driver = new ChromeDriver(options);
         _driver.Manage().Window.Maximize();
         _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
-        
+
         HomePage = new TmdbHomePage(_driver);
         SearchPage = new TmdbSearchPage(_driver);
+        TmdbApi = new TmdbApi("ce5e239860da25ec3cc5bc36ad8aab7d");
     }
 
     [TearDown]
