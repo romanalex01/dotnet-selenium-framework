@@ -1,3 +1,4 @@
+using dotnet_selenium_framework.model;
 using RestSharp;
 
 namespace dotNet_selenium_framework.apis;
@@ -14,6 +15,17 @@ public class TmdbApi
         _client = new RestClient(options);
     }
 
+    public RestResponse GenreMovie()
+    {
+        var request = new RestRequest("/3/genre/movie/list");
+        request.AddHeader("accept", "application/json");
+        request.AddQueryParameter("api_key", _apiKey);
+        request.AddQueryParameter("language", "en");
+        var response = _client.Execute(request);
+        Console.WriteLine("Execute [GET] genre movie: {0}", response.ResponseUri);
+        return response;
+    }
+
     public RestResponse DiscoverMovie()
     {
         return DiscoverMovie([]);
@@ -27,10 +39,12 @@ public class TmdbApi
 
         if (queryParameters.Any())
         {
-            queryParameters.ToList().ForEach(x =>
-                request.AddQueryParameter(x.Key, x.Value));
+            queryParameters.ToList().ForEach(dictionary =>
+                request.AddQueryParameter(dictionary.Key, dictionary.Value));
         }
 
-        return _client.Execute(request);
+        var response = _client.Execute(request);
+        Console.WriteLine("Execute [GET] discover movie: {0}", response.ResponseUri);
+        return response;
     }
 }

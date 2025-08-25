@@ -138,9 +138,10 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
     public void ClickSearchButton()
     {
         var searchButtonLocator = By.XPath("//div[contains(@class,'apply small')]//a[text()='Search']");
-        Actions.MoveToElement(FindElement(searchButtonLocator));
+        Actions.MoveToElement(FindElement(searchButtonLocator)).Perform();
+        Actions.ScrollByAmount(0, 200).Perform();
         ClickOnElement(searchButtonLocator);
-        Thread.Sleep(1000);
+        Thread.Sleep(2000);
     }
 
     public List<Movie> GetMovies()
@@ -149,17 +150,21 @@ public class TmdbSearchPage(IWebDriver driver) : BaseUiPage(driver)
         var movieElements = FindElements(_mediaResultsLocator);
         if (!movieElements.Any())
             return result;
-        
+
+        Console.WriteLine("UI -------------------------------------------");
         foreach (var movieElement in movieElements)
-        {   
+        {
             Actions.MoveToElement(movieElement);
             var title = movieElement.FindElement(By.XPath(".//h2/a")).GetAttribute("title")!;
             var date = movieElement.FindElement(By.XPath(".//p")).Text.Trim();
             var score = movieElement.FindElement(By.XPath(".//div[contains(@class,'user_score_chart')]"))
                 .GetAttribute("data-percent")!;
-            result.Add(new Movie(title, date, score));
+            var movie = new Movie(title, date, score);
+            Console.WriteLine(movie.ToString());
+            result.Add(movie);
         }
 
+        Console.WriteLine("-----------------------------------------------");
         return result;
     }
 

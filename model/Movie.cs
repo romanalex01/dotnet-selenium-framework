@@ -30,8 +30,18 @@ public class Movie
         return _score;
     }
 
-    public override string ToString()
+    public override bool Equals(object? obj)
     {
-        return $"title: {_title}, date: {_date},  score: {_score}";
+        if (obj is not Movie other) return false;
+        return Title() == other.Title() &&
+               Date() == other.Date() &&
+               Score() == other.Score();
     }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(_title, _date, _score);
+    }
+
+    public override string ToString() => $"title: {_title}, date: {_date}, score: {_score}";
 }
